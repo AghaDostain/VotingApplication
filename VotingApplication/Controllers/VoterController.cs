@@ -28,6 +28,32 @@ namespace VotingApplication.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Add a new voter
+        /// </summary>
+        /// <param name="model">Voter model</param>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /AddVoter
+        ///     {
+        ///        "name": "Voter Name",
+        ///        "dob": "Voter date of birth"
+        ///     }
+        /// </remarks>
+        /// <returns>A newly created voter</returns>
+        /// <response code="201">Returns the newly created Voter</response>
+        /// <response code="400">If the model is null</response> 
+        [ResponseType(typeof(ContentActionResult<Voter>))]
+        [HttpPost("AddVoter")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateVoter([FromBody] VoterVM model)
+        {
+            var result = await VoterManager.AddAsync(new Voter { Name = model.Name, DOB = model.DOB });
+            return new ContentActionResult<Voter>((result == null) ? HttpStatusCode.BadRequest : HttpStatusCode.Created, result, (result == null) ? "BadRequest" : "OK", Request);
+        }
+
+        /// <summary>
         /// Voter cast vote
         /// </summary>
         /// <param name="model">Vote model</param>
@@ -72,7 +98,7 @@ namespace VotingApplication.WebAPI.Controllers
         /// <response code="200">Returns voter update status</response>
         /// <response code="400">If the model is null or voterId  doesn't exists.</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
-        [HttpPost("UpdateVoter")]
+        [HttpPut("UpdateVoter")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateVoter([FromBody] VoterInfoVM model)
