@@ -1,6 +1,6 @@
 ﻿namespace VotingApplication.Models.API_Models
 {
-    public class CategoryVM
+    public class CandidateVM
     {
         public string Name { get; set; }
     }

@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VotingApplication.Data\VotingApplication.Data.csproj" />
     <ProjectReference Include="..\VotingApplication.Models\VotingApplication.Models.csproj" />
+    <ProjectReference Include="..\VotingApplication.Repositories\VotingApplication.Repositories.csproj" />
   </ItemGroup>
   
 </Project>

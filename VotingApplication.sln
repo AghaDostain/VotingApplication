@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingApplication.Data", "V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApplication.Common", "VotingApplication.Common\VotingApplication.Common.csproj", "{AF1CC137-6173-4B5C-BF2A-54741FC82129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApplication.Validations", "VotingApplication.Validations\VotingApplication.Validations.csproj", "{FDE0DBEE-7456-4C99-A2EF-A6C493010492}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApplication.Models.Validations", "VotingApplication.Validations\VotingApplication.Models.Validations.csproj", "{FDE0DBEE-7456-4C99-A2EF-A6C493010492}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApplication.Models", "VotingApplication.Models\VotingApplication.Models.csproj", "{500BFD66-58B1-4FDC-9A57-8A0DD62AA9E6}"
 EndProject

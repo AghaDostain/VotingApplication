@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using FluentValidation.AspNetCore;
@@ -38,6 +40,11 @@ namespace VotingApplication
                     Title = "Voting Application",
                     Description = "Voting Application",
                 });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             var ServiceAssemblyToScan = Assembly.GetAssembly(typeof(CandidateManager));

@@ -25,6 +25,24 @@ namespace VotingApplication.Repositories.Test
         }
         
         [TestMethod]
+        public async Task CategoryUpdateTestMethodAsync()
+        {
+            var context = new DataContext();
+            var repository = new CategoryRepository(context);
+            var data = await repository.GetAllAsync();
+
+            if (data.Any())
+            {
+                var firstData = data.FirstOrDefault();
+                firstData.Name = "Update Test";
+                var response = await repository.UpdateAsync(firstData);
+                Assert.IsTrue(response != null);
+            }
+
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
         public async Task CategoryGetAllTestMethodAsync()
         {
             var context = new DataContext();
@@ -38,8 +56,15 @@ namespace VotingApplication.Repositories.Test
         {
             var context = new DataContext();
             var repository = new CategoryRepository(context);
-            var response = await repository.GetByIdAsync(1);
-            Assert.IsTrue(response != null);
+            var data = await repository.GetAllAsync();
+            
+            if (data.Any())
+            {
+                var response = await repository.GetByIdAsync(data.FirstOrDefault().Id);
+                Assert.IsTrue(response != null);
+            }
+
+            Assert.IsTrue(true);
         }
 
         [TestMethod]
