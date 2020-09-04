@@ -34,6 +34,7 @@ A step by step series of examples that tell you how to get a development env run
 
 * [ASP.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet-core/3.0) - The API framework used
 * [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) - Microsoft ORM
-* [Swagger](https://swagger.io/) - API building and testing
+* [Swagger](https://swagger.io/) - API documentation and testing
 * [Fluent Validation](https://fluentvalidation.net/) - Validations
 * [AutoRegisterDI](https://github.com/JonPSmith/NetCore.AutoRegisterDi) - Auto Registering Dependency Injection
+* [Newtonsoft](https://www.newtonsoft.com/json) - Newtonsoft
