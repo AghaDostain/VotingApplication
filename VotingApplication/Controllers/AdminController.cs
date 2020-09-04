@@ -12,7 +12,7 @@ namespace VotingApplication.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
         private readonly ICandidateManager CandidateManager;
@@ -121,13 +121,29 @@ namespace VotingApplication.Controllers
         /// <response code="200">Returns the newly created category</response>
         /// <response code="400">If the model is null or categoryid or candidateid doesn't exists</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
-        [HttpPost("Candidte/Category")]
+        [HttpPost("Candidte/AddCategory")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateCategory([FromBody] CandidateCategoryVM model)
+        public async Task<IActionResult> AddCandidateCategory([FromBody] CandidateCategoryVM model)
         {
             var result = await CandidateManager.AddCandidateToCategory(model.CandidateId, model.CategoryId);
             return new ContentActionResult<string>(result ? HttpStatusCode.OK : HttpStatusCode.BadRequest, result.ToString(), result ? "OK" : "BadRequest", Request);
+        }
+
+        /// <summary>
+        /// Get candidate vote count
+        /// </summary>
+        /// <param name="candidateId">CandidateId</param>
+        /// <returns>Candidate result object</returns>
+        /// <response code="200">Returns the candidate result object</response>
+        [ResponseType(typeof(ContentActionResult<CandidateVoteInfoVM>))]
+        [HttpGet("Candidte/{candidateId:int}/CountVote")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCandidateVoteCount([FromQuery]int candidateId)
+        {
+            var result = await CandidateManager.GetVotesCountForCandidate(candidateId);
+            return new ContentActionResult<CandidateVoteInfoVM>(HttpStatusCode.OK, result, "OK", Request);
         }
     }
 }

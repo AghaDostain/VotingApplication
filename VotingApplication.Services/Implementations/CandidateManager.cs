@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using VotingApplication.Entities;
+using VotingApplication.Models.API_Models;
 using VotingApplication.Repositories.Interfaces;
 
 namespace VotingApplication.Services.Interfaces
@@ -8,11 +9,13 @@ namespace VotingApplication.Services.Interfaces
     {
         private readonly ICandidateRepository CandidateRepository;
         private readonly ICategoryRepository CategoryRepository;
+        private readonly IVoteRepository VoteRepository;
 
-        public CandidateManager(ICategoryRepository categoryRepository, ICandidateRepository repository) : base(repository)
+        public CandidateManager(ICategoryRepository categoryRepository, IVoteRepository voteRepository, ICandidateRepository repository) : base(repository)
         {
             CategoryRepository = categoryRepository;
             CandidateRepository = repository;
+            VoteRepository = voteRepository;
         }
 
         public async Task<bool> AddCandidateToCategory(int candidateId, int categoryId)
@@ -29,6 +32,14 @@ namespace VotingApplication.Services.Interfaces
             }
 
             return isDataUpdated;
+        }
+
+        public async Task<CandidateVoteInfoVM> GetVotesCountForCandidate(int candidateId)
+        {
+            var result = new CandidateVoteInfoVM { CandidateId = candidateId, VoteCount = 0 };
+            var data = await VoteRepository.FindAsync(s => s.CandidateId == candidateId);
+            result.VoteCount = data.Count;
+            return result;
         }
     }
 }

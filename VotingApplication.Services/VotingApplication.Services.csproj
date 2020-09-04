@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VotingApplication.Common\VotingApplication.Common.csproj" />
+    <ProjectReference Include="..\VotingApplication.Models\VotingApplication.Models.csproj" />
     <ProjectReference Include="..\VotingApplication.Repositories\VotingApplication.Repositories.csproj" />
   </ItemGroup>
 

@@ -39,6 +39,7 @@ namespace VotingApplication.Services.Interfaces
                     isVoteCasted = true;
                 }
             }
+
             return isVoteCasted;
         }
     }
