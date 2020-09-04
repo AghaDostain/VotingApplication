@@ -16,12 +16,12 @@ namespace VotingApplication.WebAPI.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class VoterController : ControllerBase
+    public class VotersController : ControllerBase
     {
         private readonly IVoteManager VoteManager;
         private readonly IVoterManager VoterManager;
 
-        public VoterController(IVoteManager voteManager, IVoterManager voterManager)
+        public VotersController(IVoteManager voteManager, IVoterManager voterManager)
         {
             VoteManager = voteManager;
             VoterManager = voterManager;
@@ -44,7 +44,7 @@ namespace VotingApplication.WebAPI.Controllers
         /// <response code="201">Returns the newly created Voter</response>
         /// <response code="400">If the model is null</response> 
         [ResponseType(typeof(ContentActionResult<Voter>))]
-        [HttpPost("AddVoter")]
+        [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateVoter([FromBody] VoterVM model)
@@ -71,13 +71,13 @@ namespace VotingApplication.WebAPI.Controllers
         /// <response code="200">Returns vote casting status</response>
         /// <response code="400">If the model is null or candidateId, categoryId, voterId  doesn't exists.</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
-        [HttpPost("CastVote")]
+        [HttpPost("Cast")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateVote([FromBody] VoteVM model)
         {
             var result = await VoteManager.CastVote(model.CandidateId, model.CategoryId, model.VoterId);
-            return new ContentActionResult<string>((result) ? HttpStatusCode.OK : HttpStatusCode.BadRequest, result ? "Vote succesfully casted" : "Error", result ? "OK" : "BadRequest", Request);
+            return new ContentActionResult<string>((result) ? HttpStatusCode.Created : HttpStatusCode.BadRequest, result ? "Vote succesfully casted" : "Error", result ? "OK" : "BadRequest", Request);
         }
 
         /// <summary>
@@ -98,14 +98,13 @@ namespace VotingApplication.WebAPI.Controllers
         /// <response code="200">Returns voter update status</response>
         /// <response code="400">If the model is null or voterId  doesn't exists.</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
-        [HttpPut("UpdateVoter")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [HttpPut("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateVoter([FromBody] VoterInfoVM model)
         {
             var result = await VoterManager.UpdateVoterInfo(model.VoterId, model.DOB);
             return new ContentActionResult<string>(result ? HttpStatusCode.OK : HttpStatusCode.BadRequest, result ? "Voter info updated" : "Error", result ? "OK" : "BadRequest", Request);
         }
-
     }
 }
