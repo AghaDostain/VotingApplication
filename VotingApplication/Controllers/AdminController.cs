@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VotingApplication.Entities;
 using VotingApplication.Models.API_Models;
+using VotingApplication.Models.ViewModel;
 using VotingApplication.Services.Interfaces;
 using VotingApplication.WebAPI.Extra;
 
@@ -83,8 +84,8 @@ namespace VotingApplication.Controllers
         ///
         ///     POST /AddCategory
         ///     {
-        ///        "categoryId": "Category Id"
         ///        "candidateId": "Candidate Id"
+        ///        "categoryId": "Category Id"
         ///     }
         /// </remarks>
         /// <returns>A newly created category</returns>
@@ -92,12 +93,12 @@ namespace VotingApplication.Controllers
         /// <response code="400">If the model is null or categoryid or candidateid doesn't exists</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
         [HttpPost("Candidte/Category")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddCandidateCategory([FromBody] CandidateCategoryVM model)
         {
             var result = await CandidateManager.AddCandidateToCategory(model.CandidateId, model.CategoryId);
-            return new ContentActionResult<string>(result ? HttpStatusCode.Created : HttpStatusCode.BadRequest, result.ToString(), result ? "Created" : "BadRequest", Request);
+            return new ContentActionResult<string>(result ? HttpStatusCode.OK : HttpStatusCode.BadRequest, result.ToString(), result ? "OK" : "BadRequest", Request);
         }
 
         /// <summary>
@@ -106,13 +107,20 @@ namespace VotingApplication.Controllers
         /// <param name="Id">CandidateId</param>
         /// <returns>Candidate result object</returns>
         /// <response code="200">Returns the candidate result object</response>
+        /// <response code="400">If candidateid doesn't exists</response> 
         [ResponseType(typeof(ContentActionResult<CandidateVoteInfoVM>))]
         [HttpGet("Candidte/{Id:int}/VoteCount")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCandidateVoteCount([FromQuery]int Id)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCandidateVoteCount([FromRoute]int Id)
         {
-            var result = await CandidateManager.GetVotesCountForCandidate(Id);
-            return new ContentActionResult<CandidateVoteInfoVM>(HttpStatusCode.OK, result, "OK", Request);
+            if ((await CandidateManager.GetAsync(Id)) != null)
+            {
+                var result = await CandidateManager.GetVotesCountForCandidate(Id);
+                return new ContentActionResult<CandidateVoteInfoVM>(HttpStatusCode.OK, result, "OK", Request);
+            }
+
+            return new ContentActionResult<CandidateVoteInfoVM>(HttpStatusCode.BadRequest, null, "Candidate Not Found", Request);
         }
     }
 }

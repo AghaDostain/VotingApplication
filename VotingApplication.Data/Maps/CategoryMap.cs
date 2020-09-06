@@ -10,6 +10,9 @@ namespace VotingApplication.Data.Maps
         {
             builder.ToTable("Categories");
             builder.Property(r => r.Name).HasColumnName("Name").HasMaxLength(255);
+            builder.HasMany(s => s.Candidates)
+                .WithOne(s => s.Category)
+                .HasForeignKey(s => s.CatergoryId);
             base.Configure(builder);
         }
     }

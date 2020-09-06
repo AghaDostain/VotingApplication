@@ -7,12 +7,14 @@
   <ItemGroup>
     <PackageReference Include="LINQKit.Core" Version="1.1.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VotingApplication.Common\VotingApplication.Common.csproj" />
     <ProjectReference Include="..\VotingApplication.Entities\VotingApplication.Entities.csproj" />
+    <ProjectReference Include="..\VotingApplication.Models\VotingApplication.Models.csproj" />
   </ItemGroup>
 
 </Project>

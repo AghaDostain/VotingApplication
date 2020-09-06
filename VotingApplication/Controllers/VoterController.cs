@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VotingApplication.Entities;
-using VotingApplication.Models.API_Models;
+using VotingApplication.Models.ViewModel;
 using VotingApplication.Services.Interfaces;
 using VotingApplication.WebAPI.Extra;
 
@@ -60,24 +57,26 @@ namespace VotingApplication.WebAPI.Controllers
         /// <remarks>
         /// Sample request:
         /// 
-        ///     POST /ACastVoteddCandidate
+        ///     POST /voter cast vote
         ///     {
+        ///        "voterId": "voterId"
         ///        "candidateId": "candidateId"
         ///        "categoryId": "categoryId"
-        ///        "voterId": "voterId"
         ///     }
         /// </remarks>
         /// <returns>Vote casting status</returns>
-        /// <response code="200">Returns vote casting status</response>
+        /// <response code="20">Returns when vote already casted for category</response>
+        /// <response code="201">Returns vote casting status</response>
         /// <response code="400">If the model is null or candidateId, categoryId, voterId  doesn't exists.</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
         [HttpPost("Cast")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateVote([FromBody] VoteVM model)
         {
             var result = await VoteManager.CastVote(model.CandidateId, model.CategoryId, model.VoterId);
-            return new ContentActionResult<string>((result) ? HttpStatusCode.Created : HttpStatusCode.BadRequest, result ? "Vote succesfully casted" : "Error", result ? "OK" : "BadRequest", Request);
+            return new ContentActionResult<string>(result ? HttpStatusCode.Created : HttpStatusCode.OK, result ? "Vote succesfully casted" : "Vote already casted", result ? "Created" : "OK", Request);
         }
 
         /// <summary>
@@ -89,9 +88,8 @@ namespace VotingApplication.WebAPI.Controllers
         /// 
         ///     POST /UpdateVoter
         ///     {
-        ///        "candidateId": "candidateId"
-        ///        "categoryId": "categoryId"
         ///        "voterId": "voterId"
+        ///        "dob": "date of birth"
         ///     }
         /// </remarks>
         /// <returns>Voter update status</returns>

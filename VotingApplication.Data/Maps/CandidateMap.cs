@@ -8,10 +8,14 @@ namespace VotingApplication.Data.Maps
     {
         public override void Configure(EntityTypeBuilder<Candidate> builder)
         {
-            builder.ToTable("Candidates");
-            builder.Property(r => r.CatergoryId).HasColumnName("CatergoryId").IsRequired();
-            builder.Property(r => r.Name).HasColumnName("Name").HasMaxLength(255);
             base.Configure(builder);
+            builder.ToTable("Candidates");
+            builder.Property(r => r.CatergoryId).HasColumnName("CatergoryId");
+            builder.Property(r => r.Name).HasColumnName("Name").HasMaxLength(255);
+            builder.HasOne(s => s.Category)
+                .WithMany(s => s.Candidates)
+                .HasForeignKey(s => s.CatergoryId)
+                .HasConstraintName("FK_Candidates_Categories");
         }
     }
 }

@@ -1,4 +1,17 @@
-﻿USE [Voting]
+﻿-- Creates the login VotingAppUser with password '12345'.  
+CREATE LOGIN VotingAppUser
+    WITH PASSWORD = '12345';  
+GO  
+
+-- Creates a database user for the login created above.  
+CREATE USER VotingAppUser FOR LOGIN VotingAppUser;  
+GO  
+
+
+DENY DELETE, UPDATE ON Categories TO [VotingAppUser]
+
+
+USE [Voting]
 GO
 SET IDENTITY_INSERT [dbo].[Categories] ON 
 GO

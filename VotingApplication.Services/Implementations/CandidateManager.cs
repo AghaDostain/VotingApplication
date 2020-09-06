@@ -37,8 +37,18 @@ namespace VotingApplication.Services.Interfaces
         public async Task<CandidateVoteInfoVM> GetVotesCountForCandidate(int candidateId)
         {
             var result = new CandidateVoteInfoVM { CandidateId = candidateId, VoteCount = 0 };
-            var data = await VoteRepository.FindAsync(s => s.CandidateId == candidateId);
-            result.VoteCount = data.Count;
+            var candidate = await CandidateRepository.GetByIdAsync(s => s.Id == candidateId);
+
+            if(candidate != null)
+            {
+                result.CandidateName = candidate.Name;
+                var category = await CategoryRepository.GetByIdAsync(candidate.CatergoryId);
+                var data = await VoteRepository.FindAsync(s => s.CandidateId == candidateId);
+                result.VoteCount = data.Count;
+                result.CategoryId = category.Id;
+                result.CategoryName = category.Name;
+            }
+
             return result;
         }
     }

@@ -1,21 +1,26 @@
-﻿using FluentValidation;
-using VotingApplication.Models.API_Models;
+﻿using System;
+using FluentValidation;
+using VotingApplication.Models.ViewModel;
 using VotingApplication.Models.Validations.Helper;
 
 namespace VotingApplication.Validations
 {
-    public class VoterInfoVMValidator: AbstractValidator<VoterInfoVM>
+    public class VoterInfoVMValidator : AbstractValidator<VoterInfoVM>
     {
         public VoterInfoVMValidator()
         {
-            RuleFor(s=>s.VoterId).NotEmpty().WithName("VoteId").WithMessage("{PropertyName} is required.");
-            RuleFor(s=>s.DOB).NotEmpty().WithName("DOB").WithMessage("{PropertyName} is required.");
-            var helper = new RepositoryHelper();
-            RuleFor(model => model).Custom(async (model, context) => {
-                if (!(await helper.ValidateVoter(model.VoterId)))
+            RuleFor(s => s.VoterId).NotEmpty().WithName("VoteId").WithMessage("{PropertyName} is required.");
+            RuleFor(s => s.DOB).NotEmpty().WithName("DOB").WithMessage("{PropertyName} is required.");
+            RuleFor(model => model).Custom((model, context) =>
+            {
+                if (!(new RepositoryHelper().ValidateVoter(model.VoterId)))
                 {
                     context.AddFailure("VoterId", "Voter doesn't exists");
-                    return;
+                }
+
+                if (DateTime.UtcNow.Year - model.DOB.Year < 18)
+                {
+                    context.AddFailure("Date of Birth", "Your age must be above 18.");
                 }
             });
         }

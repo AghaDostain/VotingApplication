@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VotingApplication.Models.API_Models
+namespace VotingApplication.Models.ViewModel
 {
     public class VoterVM
     {

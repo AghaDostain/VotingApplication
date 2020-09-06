@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentValidation;
-using VotingApplication.Models.API_Models;
+using VotingApplication.Models.ViewModel;
 
 namespace VotingApplication.Validations
 {

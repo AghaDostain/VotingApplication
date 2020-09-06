@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using VotingApplication.Models.API_Models;
+using VotingApplication.Models.ViewModel;
 using VotingApplication.Models.Validations.Helper;
 
 namespace VotingApplication.Validations
@@ -11,24 +11,29 @@ namespace VotingApplication.Validations
             RuleFor(s => s.CandidateId).NotEmpty().WithName("Candidate Id").WithMessage("{PropertyName} is required.");
             RuleFor(s => s.CategoryId).NotEmpty().WithName("Category Id").WithMessage("{PropertyName} is required.");
             RuleFor(s => s.VoterId).NotEmpty().WithName("Voter Id").WithMessage("{PropertyName} is required.");
-            var helper = new RepositoryHelper();
-            RuleFor(model => model).Custom(async (model, context) => {
-                if (!(await helper.ValidateCandidate(model.CandidateId)))
+            RuleFor(model => model).Custom((model, context) =>
+            {
+                var helper = new RepositoryHelper();
+
+                if (!helper.ValidateCandidate(model.CandidateId))
                 {
                     context.AddFailure("CandidateId", "Candidate doesn't exists");
-                    return;
                 }
 
-                if (!(await helper.ValidateCategory(model.CategoryId)))
+                if (!helper.ValidateCategory(model.CategoryId))
                 {
                     context.AddFailure("CategoryId", "Category doesn't exists");
-                    return;
                 }
-                
-                if (!(await helper.ValidateVoter(model.VoterId)))
+
+                if (!helper.ValidateVoter(model.VoterId))
                 {
                     context.AddFailure("VoterId", "Voter doesn't exists");
                     return;
+                }
+
+                if (!helper.ValidateCandidateCategory(model.CandidateId, model.CategoryId))
+                {
+                    context.AddFailure("CandidateId", "Candidate doesn't exists in category");
                 }
             });
         }

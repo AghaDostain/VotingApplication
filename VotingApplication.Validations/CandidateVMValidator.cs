@@ -1,19 +1,19 @@
 ﻿using FluentValidation;
-using VotingApplication.Models.Validations.Helper;
 using VotingApplication.Models.ViewModel;
+using VotingApplication.Models.Validations.Helper;
 
 namespace VotingApplication.Validations
 {
-    public class CategoryVMValidator : AbstractValidator<CategoryVM>
+    public class CandidateVMValidator : AbstractValidator<CandidateVM>
     {
-        public CategoryVMValidator()
+        public CandidateVMValidator()
         {
             RuleFor(s => s.Name).NotEmpty().WithName("Name").WithMessage("{PropertyName} is required.");
             RuleFor(model => model).Custom((model, context) =>
             {
-                if (!new RepositoryHelper().ValidateCategoryNameExistence(model.Name))
+                if (!new RepositoryHelper().ValidateCandidateNameExistence(model.Name))
                 {
-                    context.AddFailure("Name", "Category name already exists");
+                    context.AddFailure("Name", "Candidate name already exists");
                     return;
                 }
             });

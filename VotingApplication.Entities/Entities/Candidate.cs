@@ -6,6 +6,7 @@ namespace VotingApplication.Entities
     public class Candidate : KeyedEntityBase<int>
     {
         public string Name { get; set; }
-        public int CatergoryId { get; set; }
+        public int? CatergoryId { get; set; }
+        public Category Category { get; set; }
     }
 }
