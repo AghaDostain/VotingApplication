@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApplication.Models", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingApplication.Repositories.Test", "VotingApplication.Repositories.Test\VotingApplication.Repositories.Test.csproj", "{CCED4162-2449-4AF7-8637-2C0BBB42F759}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{850D5153-587E-45ED-A521-F8207440AA5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CCED4162-2449-4AF7-8637-2C0BBB42F759} = {850D5153-587E-45ED-A521-F8207440AA5F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D55BEF75-7287-411D-9B14-87DCF8DEFDE8}
