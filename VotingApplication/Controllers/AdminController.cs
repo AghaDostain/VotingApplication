@@ -122,5 +122,29 @@ namespace VotingApplication.Controllers
 
             return new ContentActionResult<CandidateVoteInfoVM>(HttpStatusCode.BadRequest, null, "Candidate Not Found", Request);
         }
+        
+        /// <summary>
+        /// Delete candidate
+        /// </summary>
+        /// <param name="Id">CandidateId</param>
+        /// <returns>Deleteion success status</returns>
+        /// <response code="200">When suucesfully deleted</response>
+        /// <response code="400">If candidateid doesn't exists</response> 
+        [ResponseType(typeof(ContentActionResult<string>))]
+        [HttpDelete("Candidte/{Id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteCandidate([FromRoute]int Id)
+        {
+            var candidate = await CandidateManager.GetAsync(Id);
+
+            if ( candidate != null)
+            {
+                await CandidateManager.DeletCandidateAsync(Id);
+                return new ContentActionResult<string>(HttpStatusCode.OK, "Succesfully deleted", "OK", Request);
+            }
+
+            return new ContentActionResult<string>(HttpStatusCode.BadRequest, null, "Candidate Not Found", Request);
+        }
     }
 }

@@ -34,6 +34,11 @@ namespace VotingApplication.Services.Interfaces
             return isDataUpdated;
         }
 
+        public async Task DeletCandidateAsync(int id)
+        {
+            await CandidateRepository.DeleteCandidateAsync(id);
+        }
+
         public async Task<CandidateVoteInfoVM> GetVotesCountForCandidate(int candidateId)
         {
             var result = new CandidateVoteInfoVM { CandidateId = candidateId, VoteCount = 0 };

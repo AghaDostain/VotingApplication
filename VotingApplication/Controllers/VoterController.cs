@@ -104,5 +104,30 @@ namespace VotingApplication.WebAPI.Controllers
             var result = await VoterManager.UpdateVoterInfo(model.VoterId, model.DOB);
             return new ContentActionResult<string>(result ? HttpStatusCode.OK : HttpStatusCode.BadRequest, result ? "Voter info updated" : "Error", result ? "OK" : "BadRequest", Request);
         }
+
+
+        /// <summary>
+        /// Delete voter
+        /// </summary>
+        /// <param name="Id">VoterId</param>
+        /// <returns>Deleteion success status</returns>
+        /// <response code="200">When suucesfully deleted</response>
+        /// <response code="400">If voter doesn't exists</response> 
+        [ResponseType(typeof(ContentActionResult<string>))]
+        [HttpDelete("Voter/{Id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteVoter([FromRoute]int Id)
+        {
+            var candidate = await VoterManager.GetAsync(Id);
+
+            if (candidate != null)
+            {
+                await VoterManager.DeleteVoterAsync(Id);
+                return new ContentActionResult<string>(HttpStatusCode.OK, "Succesfully deleted", "OK", Request);
+            }
+
+            return new ContentActionResult<string>(HttpStatusCode.BadRequest, null, "Voter Not Found", Request);
+        }
     }
 }

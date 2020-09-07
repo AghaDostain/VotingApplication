@@ -14,6 +14,11 @@ namespace VotingApplication.Services.Interfaces
             VoterRepository = repository;
         }
 
+        public async Task DeleteVoterAsync(int id)
+        {
+            await VoterRepository.DeleteVoterAsync(id);
+        }
+
         public async Task<bool> UpdateVoterInfo(int voterId, DateTime dob)
         {
             var isVoteUpdated = false;

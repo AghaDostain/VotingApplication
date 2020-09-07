@@ -7,5 +7,6 @@ namespace VotingApplication.Services.Interfaces
     public interface IVoterManager : IManager<Voter>
     {
         Task<bool> UpdateVoterInfo(int voterId, DateTime dob);
+        Task DeleteVoterAsync(int id);
     }
 }

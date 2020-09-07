@@ -8,5 +8,6 @@ namespace VotingApplication.Services.Interfaces
     {
         Task<bool> AddCandidateToCategory(int candidateId, int categoryId);
         Task<CandidateVoteInfoVM> GetVotesCountForCandidate(int candidateId);
+        Task DeletCandidateAsync(int id);
     }
 }
