@@ -1,8 +1,8 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http.Description;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using VotingApplication.Entities;
 using VotingApplication.Models.API_Models;
 using VotingApplication.Models.ViewModel;
@@ -92,7 +92,7 @@ namespace VotingApplication.Controllers
         /// <response code="200">Returns the newly created category</response>
         /// <response code="400">If the model is null or categoryid or candidateid doesn't exists</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
-        [HttpPost("Candidte/Category")]
+        [HttpPost("Candidate/Category")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AddCandidateCategory([FromBody] CandidateCategoryVM model)
@@ -109,10 +109,10 @@ namespace VotingApplication.Controllers
         /// <response code="200">Returns the candidate result object</response>
         /// <response code="400">If candidateid doesn't exists</response> 
         [ResponseType(typeof(ContentActionResult<CandidateVoteInfoVM>))]
-        [HttpGet("Candidte/{Id:int}/VoteCount")]
+        [HttpGet("Candidate/{Id:int}/VoteCount")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetCandidateVoteCount([FromRoute]int Id)
+        public async Task<IActionResult> GetCandidateVoteCount([FromRoute] int Id)
         {
             if ((await CandidateManager.GetAsync(Id)) != null)
             {
@@ -122,7 +122,7 @@ namespace VotingApplication.Controllers
 
             return new ContentActionResult<CandidateVoteInfoVM>(HttpStatusCode.BadRequest, null, "Candidate Not Found", Request);
         }
-        
+
         /// <summary>
         /// Delete candidate
         /// </summary>
@@ -131,14 +131,14 @@ namespace VotingApplication.Controllers
         /// <response code="200">When suucesfully deleted</response>
         /// <response code="400">If candidateid doesn't exists</response> 
         [ResponseType(typeof(ContentActionResult<string>))]
-        [HttpDelete("Candidte/{Id:int}")]
+        [HttpDelete("Candidate/{Id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteCandidate([FromRoute]int Id)
+        public async Task<IActionResult> DeleteCandidate([FromRoute] int Id)
         {
             var candidate = await CandidateManager.GetAsync(Id);
 
-            if ( candidate != null)
+            if (candidate != null)
             {
                 await CandidateManager.DeletCandidateAsync(Id);
                 return new ContentActionResult<string>(HttpStatusCode.OK, "Succesfully deleted", "OK", Request);
